@@ -1,35 +1,21 @@
 export const resolvers = {
     Query: {
-        cards: async (parent, args, {prisma}) => {
-            return await prisma().card.findMany()
-        },
-        card: async (parent, {id}, {prisma}) => {
-            return await prisma().card.findUnique({
-                where: { id }
-            })
+        lessons: async (parent, args, { prisma }) => {
+            return await prisma().lesson.findMany()
         }
     },
     Mutation: {
-        createCard: async (parent, {input}, {prisma}) => {
-            return await prisma().card.create({
+        createLesson: async (parent, { input }, { prisma }) => {
+            console.log(input)
+            return await prisma().lesson.create({
                 data: {
-                    title: input.title,
-                    text: input.text,
+                    name: input.name,
+                    content: input.content,
+                    nextLessonId: input.nextLessonId,
+                    prevLessonId: input.prevLessonId,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
                 }
-            })
-        },
-        updateCard: async (parent, {id, input}, {prisma}) => {
-            return await prisma().card.update({
-                where: { id },
-                data: {
-                    title: input.title,
-                    text: input.text
-                }
-            })
-        },
-        deleteCard: async (parent, {id}, {prisma}) => {
-            return await prisma().card.delete({
-                where: { id }
             })
         }
     }

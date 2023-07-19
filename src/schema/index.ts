@@ -1,25 +1,29 @@
 export const typeDefs = `#graphql
 
     type Query {
-        cards: [Card!]!
-        card(id: Int!): Card
+        lessons: [Lesson!]!
+        # card(id: Int!): Card!
     }
 
     type Mutation {
-        createCard(input: CardInput): Card
-        updateCard(id: Int!, input: CardInput): Card
-        deleteCard(id: Int!): Card
+        createLesson(input: LessonInput!): Lesson!
     }
 
-    input CardInput {
-        title: String!
-        text: String!
+    input LessonInput {
+        name: String!
+        content: String!
+        nextLessonId: ID
+        prevLessonId: ID
     }
 
-    type Card {
-        id: Int!
-        title: String!
-        text: String!
+    type Lesson {
+        id: ID!
+        name: String!
+        content: String!
+        nextLessonId: ID
+        prevLessonId: ID
+        createdAt: String!
+        updatedAt: String!
     }
 
 `

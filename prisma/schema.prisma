@@ -10,8 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Card {
-  id     Int    @id @default(autoincrement())
-  title  String
-  text   String
+model Lesson {
+  id           String   @id @default(uuid())
+  name         String
+  content      String
+  nextLessonId String?
+  prevLessonId String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
