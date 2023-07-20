@@ -3,12 +3,14 @@ export const typeDefs = `#graphql
     scalar Timestamp
 
     type Query {
-        lessons: [Lesson!]!
-        # card(id: Int!): Card!
+        getLessons: [Lesson!]!
+        getLesson(id: UUID!): Lesson!
     }
 
     type Mutation {
         createLesson(input: LessonInput!): Lesson!
+        updateLesson(id: UUID!, input: LessonInput!): Lesson!
+        deleteLesson(id: UUID!): Lesson!
     }
 
     input LessonInput {

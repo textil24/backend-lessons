@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "Lesson" (
+CREATE TABLE "Lessons" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "content" TEXT NOT NULL,
@@ -8,5 +8,5 @@ CREATE TABLE "Lesson" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Lesson_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Lessons_pkey" PRIMARY KEY ("id")
 );
