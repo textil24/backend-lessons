@@ -5,8 +5,8 @@ CREATE TABLE "Lessons" (
     "content" TEXT NOT NULL,
     "nextLessonId" TEXT,
     "prevLessonId" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TEXT NOT NULL,
+    "updatedAt" TEXT NOT NULL,
 
     CONSTRAINT "Lessons_pkey" PRIMARY KEY ("id")
 );

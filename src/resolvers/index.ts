@@ -11,14 +11,15 @@ export const resolvers = {
     },
     Mutation: {
         createLesson: async (parent, { input }, { prisma }) => {
+            const currentDate = String(Date.now())
             return await prisma().lessons.create({
                 data: {
                     name: input.name,
                     content: input.content,
                     nextLessonId: input.nextLessonId,
                     prevLessonId: input.prevLessonId,
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString()
+                    createdAt: currentDate,
+                    updatedAt: currentDate
                 }
             })
         },
@@ -30,7 +31,7 @@ export const resolvers = {
                     content: input.content,
                     nextLessonId: input.nextLessonId,
                     prevLessonId: input.prevLessonId,
-                    updatedAt: new Date().toISOString()
+                    updatedAt: Date.now()
                 }
             })
         },

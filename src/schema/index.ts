@@ -21,7 +21,7 @@ export const typeDefs = `#graphql
     }
 
     type Lesson {
-        id: ID!
+        id: UUID!
         name: String!
         content: String!
         nextLessonId: UUID
