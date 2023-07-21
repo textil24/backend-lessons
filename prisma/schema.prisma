@@ -13,7 +13,7 @@ datasource db {
 model Lessons {
   id           String  @id @default(uuid())
   name         String
-  content      String
+  content      Json
   nextLessonId String?
   prevLessonId String?
   createdAt    String

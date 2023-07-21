@@ -2,7 +2,7 @@
 CREATE TABLE "Lessons" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
+    "content" JSONB NOT NULL,
     "nextLessonId" TEXT,
     "prevLessonId" TEXT,
     "createdAt" TEXT NOT NULL,

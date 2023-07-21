@@ -1,6 +1,7 @@
 export const typeDefs = `#graphql
     scalar UUID
     scalar Timestamp
+    scalar JSON
 
     type Query {
         getLessons: [Lesson!]!
@@ -15,7 +16,7 @@ export const typeDefs = `#graphql
 
     input LessonInput {
         name: String!
-        content: String!
+        content: JSON!
         nextLessonId: UUID
         prevLessonId: UUID
     }
@@ -23,7 +24,7 @@ export const typeDefs = `#graphql
     type Lesson {
         id: UUID!
         name: String!
-        content: String!
+        content: JSON!
         nextLessonId: UUID
         prevLessonId: UUID
         createdAt: Timestamp!

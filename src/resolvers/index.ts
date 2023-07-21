@@ -4,9 +4,18 @@ export const resolvers = {
             return await prisma().lessons.findMany()
         },
         getLesson: async (parent, { id }, { prisma }) => {
-            return await prisma().lessons.findUnique({
+            const lessonElements = await prisma().lessons.findUnique({
                 where: { id }
             })
+
+
+
+            
+            return {
+                    ...lessonElements,
+                    content: lessonElements.content.sort((a, b) => a.order - b.order)
+                }
+            
         }
     },
     Mutation: {
