@@ -35,13 +35,13 @@ export const resolvers = {
             return await prisma().lesson.findMany()
         },
         getLesson: async (parent, { id }, { prisma }) => {
-            const lessonElements = await prisma().lessons.findUnique({
+            const lessonElements = await prisma().lesson.findUnique({
                 where: { id }
             })
-
+            
             return {
                 ...lessonElements,
-                content: lessonElements.content.sort((a, b) => a.order - b.order)
+                content: lessonElements.content.sort((a, b) => a.orderBy - b.orderBy)
             }
         }
     },
