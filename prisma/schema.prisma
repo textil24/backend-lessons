@@ -10,12 +10,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Lessons {
+model Course {
+  id          String   @id @default(uuid())
+  name        String
+  category    String
+  description String
+  preview     String
+  createdAt   String
+  updatedAt   String
+  lessons     Lesson[]
+}
+
+model Lesson {
   id           String  @id @default(uuid())
   name         String
   content      Json
+  orderBy      Int
   nextLessonId String?
   prevLessonId String?
   createdAt    String
   updatedAt    String
+  course       Course  @relation(fields: [courseId], references: [id])
+  courseId     String
 }
