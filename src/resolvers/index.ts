@@ -5,19 +5,31 @@ export const resolvers = {
             const course = await prisma().course.findMany()
 
             await Promise.all(course.map(async (item) => {
-                    const currentLesson = await prisma().lesson.findMany({
-                        where: { courseId: item.id }
-                    })
-                    courses.push({
-                        ...item,
-                        lessons: currentLesson
-                    })
-                }
+                const currentLesson = await prisma().lesson.findMany({
+                    where: { courseId: item.id }
+                })
+                courses.push({
+                    ...item,
+                    lessons: currentLesson
+                })
+            }
             ))
 
-            console.log(courses)
-
             return courses
+        },
+        getCourse: async (parent, { id }, { prisma }) => {
+            const course = await prisma().course.findUnique({
+                where: { id }
+            })
+
+            const lessons = await prisma().lesson.findMany({
+                where: { courseId: course.id }
+            })
+
+            return {
+                ...course,
+                lessons
+            }
         },
         getLessons: async (parent, args, { prisma }) => {
             return await prisma().lesson.findMany()
