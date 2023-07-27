@@ -1,35 +1,25 @@
 export const resolvers = {
     Query: {
         getCourses: async (parent, args, { prisma }) => {
-            let courses = []
-            const course = await prisma().course.findMany()
+            const courses = await prisma().course.findMany({
+                include: {
+                    lessons: true,
+                }
+            });
 
-            await Promise.all(course.map(async (item) => {
-                const currentLesson = await prisma().lesson.findMany({
-                    where: { courseId: item.id }
-                })
-                courses.push({
-                    ...item,
-                    lessons: currentLesson
-                })
-            }
-            ))
-
-            return courses
+            return courses;
         },
         getCourse: async (parent, { id }, { prisma }) => {
             const course = await prisma().course.findUnique({
-                where: { id }
-            })
+                where: { id },
+                include: {
+                    lessons: true,
+                },
+            });
 
-            const lessons = await prisma().lesson.findMany({
-                where: { courseId: course.id }
-            })
+            // ! Нет сортировки по элементам урока
 
-            return {
-                ...course,
-                lessons
-            }
+            return course
         },
         getLessons: async (parent, args, { prisma }) => {
             return await prisma().lesson.findMany()
@@ -38,7 +28,7 @@ export const resolvers = {
             const lessonElements = await prisma().lesson.findUnique({
                 where: { id }
             })
-            
+
             return {
                 ...lessonElements,
                 content: lessonElements.content.sort((a, b) => a.orderBy - b.orderBy)
@@ -51,18 +41,15 @@ export const resolvers = {
             const currentDate = String(Date.now())
             const course = await prisma().course.create({
                 data: {
-                    name: input.name,
-                    category: input.category,
-                    description: input.description,
-                    preview: input.preview,
-                    createdAt: currentDate,
-                    updatedAt: currentDate
-                }
-            })
-
-            const lessons = await Promise.all(input.lessons.map(async (item) =>
-                await prisma().lesson.create({
-                    data: {
+                  name: input.name,
+                  category: input.category,
+                  description: input.description,
+                  preview: input.preview,
+                  createdAt: currentDate,
+                  updatedAt: currentDate,
+                  lessons: {
+                    createMany: {
+                      data: input.lessons.map((item) => ({
                         name: item.name,
                         content: item.content,
                         orderBy: item.orderBy,
@@ -70,15 +57,16 @@ export const resolvers = {
                         prevLessonId: null,
                         createdAt: currentDate,
                         updatedAt: currentDate,
-                        courseId: course.id
-                    }
-                })
-            ))
-
-            return {
-                ...course,
-                lessons
-            }
+                      })),
+                    },
+                  },
+                },
+                include: {
+                  lessons: true,
+                },
+              });
+            
+              return course;
 
         },
         createLesson: async (parent, { input }, { prisma }) => {

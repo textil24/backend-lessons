@@ -5,8 +5,8 @@ CREATE TABLE "Course" (
     "category" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "preview" TEXT NOT NULL,
-    "createdAt" TEXT NOT NULL,
-    "updatedAt" TEXT NOT NULL,
+    "created_at" TEXT NOT NULL,
+    "updated_at" TEXT NOT NULL,
 
     CONSTRAINT "Course_pkey" PRIMARY KEY ("id")
 );
@@ -16,15 +16,15 @@ CREATE TABLE "Lesson" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "content" JSONB NOT NULL,
-    "orderBy" INTEGER NOT NULL,
-    "nextLessonId" TEXT,
-    "prevLessonId" TEXT,
-    "createdAt" TEXT NOT NULL,
-    "updatedAt" TEXT NOT NULL,
-    "courseId" TEXT NOT NULL,
+    "order_by" INTEGER NOT NULL,
+    "next_lesson_id" TEXT,
+    "prev_lesson_id" TEXT,
+    "created_at" TEXT NOT NULL,
+    "updated_at" TEXT NOT NULL,
+    "course_id" TEXT NOT NULL,
 
     CONSTRAINT "Lesson_pkey" PRIMARY KEY ("id")
 );
 
 -- AddForeignKey
-ALTER TABLE "Lesson" ADD CONSTRAINT "Lesson_courseId_fkey" FOREIGN KEY ("courseId") REFERENCES "Course"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Lesson" ADD CONSTRAINT "Lesson_course_id_fkey" FOREIGN KEY ("course_id") REFERENCES "Course"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
