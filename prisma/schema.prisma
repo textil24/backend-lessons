@@ -16,8 +16,8 @@ model Course {
   category    String
   description String
   preview     String
-  createdAt   String
-  updatedAt   String
+  createdAt   String @map(name: "created_at")
+  updatedAt   String @map(name: "updated_at")
   lessons     Lesson[]
 }
 
@@ -25,11 +25,11 @@ model Lesson {
   id           String  @id @default(uuid())
   name         String
   content      Json
-  orderBy      Int
-  nextLessonId String?
-  prevLessonId String?
-  createdAt    String
-  updatedAt    String
+  orderBy      Int     @map(name: "order_by")
+  nextLessonId String? @map(name: "next_lesson_id")
+  prevLessonId String? @map(name: "prev_lesson_id")
+  createdAt    String  @map(name: "created_at")
+  updatedAt    String  @map(name: "updated_at")
   course       Course  @relation(fields: [courseId], references: [id])
-  courseId     String
+  courseId     String  @map(name: "course_id")
 }
