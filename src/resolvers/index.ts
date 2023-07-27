@@ -21,8 +21,6 @@ export const resolvers = {
                 },
             });
 
-            // ! Нет сортировки по элементам урока
-
             return course
         },
         getLessons: async (parent, args, { prisma }) => {
