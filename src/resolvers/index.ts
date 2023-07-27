@@ -13,7 +13,11 @@ export const resolvers = {
             const course = await prisma().course.findUnique({
                 where: { id },
                 include: {
-                    lessons: true,
+                    lessons: {
+                        orderBy: {
+                            orderBy: "asc"
+                        }
+                    },
                 },
             });
 
