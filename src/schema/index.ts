@@ -40,8 +40,6 @@ export const typeDefs = `#graphql
         name: String!
         content: JSON!
         orderBy: Int!
-        # nextLessonId: UUID
-        # prevLessonId: UUID
     }
 
     type Lesson {
