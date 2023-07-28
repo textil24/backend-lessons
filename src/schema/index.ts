@@ -54,6 +54,7 @@ export const typeDefs = `#graphql
         createdAt: Timestamp!
         updatedAt: Timestamp!
         courseId: String!
+        course: Course!
     }
 
 `

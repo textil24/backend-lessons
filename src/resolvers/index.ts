@@ -9,6 +9,7 @@ export const resolvers = {
 
             return courses;
         },
+        // getAllCourses: async (parent, args, { prisma }) => await prisma().course.findMany(),
         getCourse: async (parent, { id }, { prisma }) => {
             const course = await prisma().course.findUnique({
                 where: { id },
@@ -28,7 +29,18 @@ export const resolvers = {
         },
         getLesson: async (parent, { id }, { prisma }) => {
             const lessonElements = await prisma().lesson.findUnique({
-                where: { id }
+                where: { id },
+                include: {
+                    course: {
+                        include: {
+                            lessons: {
+                                where: {
+                                    NOT: { id }
+                                }
+                            }
+                        }
+                    },
+                }
             })
 
             return {
@@ -101,5 +113,5 @@ export const resolvers = {
                 where: { id }
             })
         }
-    }
+    },
 }
