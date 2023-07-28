@@ -32,7 +32,11 @@ export const resolvers = {
                 include: {
                     course: {
                         include: {
-                            lessons: true
+                            lessons: {
+                                orderBy: {
+                                    orderBy: "asc"
+                                }
+                            }
                         }
                     },
                 }
