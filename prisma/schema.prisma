@@ -11,17 +11,21 @@ datasource db {
 }
 
 model Course {
+
   id          String   @id @default(uuid())
   name        String
   category    String
   description String
   preview     String
-  createdAt   String @map(name: "created_at")
-  updatedAt   String @map(name: "updated_at")
+  createdAt   String   @map(name: "created_at")
+  updatedAt   String   @map(name: "updated_at")
   lessons     Lesson[]
+
+  @@map("courses")
 }
 
 model Lesson {
+
   id           String  @id @default(uuid())
   name         String
   content      Json
@@ -32,4 +36,6 @@ model Lesson {
   updatedAt    String  @map(name: "updated_at")
   course       Course  @relation(fields: [courseId], references: [id])
   courseId     String  @map(name: "course_id")
+
+  @@map("lessons")
 }
