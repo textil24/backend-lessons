@@ -21,7 +21,26 @@ export const resolvers = {
                 },
             });
 
-            return course
+            const currentLessons = course.lessons
+
+            for (let i = 0; i < currentLessons.length; i++) {
+                if (i === 0) {
+                    // первый элемент списка
+                    currentLessons[i].nextLessonId = currentLessons[i + 1].id;
+                } else if (i === currentLessons.length - 1) {
+                    // последний элемент списка
+                    currentLessons[i].prevLessonId = currentLessons[i - 1].id;
+                } else {
+                    // все остальные элементы списка
+                    currentLessons[i].prevLessonId = currentLessons[i - 1].id;
+                    currentLessons[i].nextLessonId = currentLessons[i + 1].id;
+                }
+            }
+
+            return {
+                ...course,
+                lessons: currentLessons
+            }
         },
         getLessons: async (parent, args, { prisma }) => {
             return await prisma().lesson.findMany()
@@ -54,33 +73,33 @@ export const resolvers = {
             const currentDate = String(Date.now())
             const course = await prisma().course.create({
                 data: {
-                  name: input.name,
-                  category: input.category,
-                  description: input.description,
-                  preview: input.preview,
-                  createdAt: currentDate,
-                  updatedAt: currentDate,
-                  lessons: {
-                    createMany: {
-                      data: input.lessons.map((item) => ({
-                        name: item.name,
-                        content: item.content,
-                        orderBy: item.orderBy,
-                        nextLessonId: null,
-                        prevLessonId: null,
-                        createdAt: currentDate,
-                        updatedAt: currentDate,
-                      })),
+                    name: input.name,
+                    category: input.category,
+                    description: input.description,
+                    preview: input.preview,
+                    createdAt: currentDate,
+                    updatedAt: currentDate,
+                    lessons: {
+                        createMany: {
+                            data: input.lessons.map((item) => ({
+                                name: item.name,
+                                content: item.content,
+                                orderBy: item.orderBy,
+                                nextLessonId: null,
+                                prevLessonId: null,
+                                createdAt: currentDate,
+                                updatedAt: currentDate,
+                            })),
+                        },
                     },
-                  },
                 },
                 include: {
-                  lessons: true,
+                    lessons: true,
                 },
-              });
-            
-              return course;
+            });
+   
 
+            return course
         },
         createLesson: async (parent, { input }, { prisma }) => {
             const currentDate = String(Date.now())
