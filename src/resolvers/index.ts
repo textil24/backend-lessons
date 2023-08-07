@@ -21,26 +21,7 @@ export const resolvers = {
                 },
             });
 
-            const currentLessons = course.lessons
-
-            for (let i = 0; i < currentLessons.length; i++) {
-                if (i === 0) {
-                    // первый элемент списка
-                    currentLessons[i].nextLessonId = currentLessons[i + 1].id;
-                } else if (i === currentLessons.length - 1) {
-                    // последний элемент списка
-                    currentLessons[i].prevLessonId = currentLessons[i - 1].id;
-                } else {
-                    // все остальные элементы списка
-                    currentLessons[i].prevLessonId = currentLessons[i - 1].id;
-                    currentLessons[i].nextLessonId = currentLessons[i + 1].id;
-                }
-            }
-
-            return {
-                ...course,
-                lessons: currentLessons
-            }
+            return course
         },
         getLessons: async (parent, args, { prisma }) => {
             return await prisma().lesson.findMany()
@@ -97,9 +78,41 @@ export const resolvers = {
                     lessons: true,
                 },
             });
-   
 
-            return course
+            const currentLessons = course.lessons;
+
+            for (let i = 0; i < currentLessons.length; i++) {
+                if (i === 0) {
+                    // первый элемент списка
+                    currentLessons[i].nextLessonId = currentLessons[i + 1].id;
+                } else if (i === currentLessons.length - 1) {
+                    // последний элемент списка
+                    currentLessons[i].prevLessonId = currentLessons[i - 1].id;
+                } else {
+                    // все остальные элементы списка
+                    currentLessons[i].prevLessonId = currentLessons[i - 1].id;
+                    currentLessons[i].nextLessonId = currentLessons[i + 1].id;
+                }
+            }
+
+            const updatedCourse = await prisma().course.update({
+                where: { id: course.id },
+                data: {
+                    createdAt: currentDate,
+                    updatedAt: currentDate,
+                    lessons: {
+                        updateMany: currentLessons.map(({ id, prevLessonId, nextLessonId }) => ({
+                            where: { id },
+                            data: { prevLessonId, nextLessonId, createdAt: currentDate, updatedAt: currentDate },
+                        })),
+                    },
+                },
+                include: {
+                    lessons: true,
+                },
+            });
+
+            return updatedCourse;
         },
         createLesson: async (parent, { input }, { prisma }) => {
             const currentDate = String(Date.now())
