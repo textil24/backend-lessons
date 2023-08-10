@@ -11,10 +11,26 @@ export const typeDefs = `#graphql
     }
 
     type Mutation {
+        createProgress(input: ProgressInput!): Progress!
         createCourse(input: CourseInput!): Course!
         createLesson(input: LessonInput!): Lesson!
         updateLesson(id: UUID!, input: LessonInput!): Lesson!
         deleteLesson(id: UUID!): Lesson!
+    }
+
+    input ProgressInput {
+        tgUserId:    Int!
+        contentId:   Int!
+        lessonId:    UUID!
+        isEstimated: Boolean!
+    }
+
+    type Progress {
+        id:          UUID!
+        tgUserId:    Int!
+        contentId:   Int!
+        lessonId:    UUID!
+        isEstimated: Boolean!
     }
 
     input CourseInput {
@@ -51,7 +67,7 @@ export const typeDefs = `#graphql
         prevLessonId: UUID
         createdAt: Timestamp!
         updatedAt: Timestamp!
-        courseId: String!
+        courseId: UUID!
         course: Course!
     }
 

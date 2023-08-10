@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,11 +9,11 @@ datasource db {
 
 model Progress {
   id          String  @id @default(uuid())
-  tgUserId    String  @map(name: "tg_user_id")
+  tgUserId    Int     @map(name: "tg_user_id")
   contentId   Int     @map(name: "content_id")
+  isEstimated Boolean @map(name: "is_estimated")
   lesson      Lesson  @relation(fields: [lessonId], references: [id])
   lessonId    String  @map(name: "lesson_id")
-  isCorrected Boolean
 
   @@map("progresses")
 }

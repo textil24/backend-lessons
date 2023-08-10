@@ -49,6 +49,16 @@ export const resolvers = {
         }
     },
     Mutation: {
+        createProgress: async (parent, { input }, { prisma }) => {
+            return await prisma().progress.create({
+                data: {
+                    tgUserId: input.tgUserId,
+                    contentId: input.contentId,
+                    isEstimated: input.isEstimated,
+                    lessonId: input.lessonId
+                }
+            })
+        },
         createCourse: async (parent, { input }, { prisma }) => {
 
             const currentDate = String(Date.now())
