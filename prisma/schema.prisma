@@ -10,8 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Course {
+model Progress {
+  id          String  @id @default(uuid())
+  tgUserId    String  @map(name: "tg_user_id")
+  contentId   Int     @map(name: "content_id")
+  lesson      Lesson  @relation(fields: [lessonId], references: [id])
+  lessonId    String  @map(name: "lesson_id")
+  isCorrected Boolean
 
+  @@map("progresses")
+}
+
+model Course {
   id          String   @id @default(uuid())
   name        String
   category    String
@@ -25,7 +35,6 @@ model Course {
 }
 
 model Lesson {
-
   id           String  @id @default(uuid())
   name         String
   content      Json
@@ -36,6 +45,8 @@ model Lesson {
   updatedAt    String  @map(name: "updated_at")
   course       Course  @relation(fields: [courseId], references: [id])
   courseId     String  @map(name: "course_id")
+
+  Progress Progress[]
 
   @@map("lessons")
 }

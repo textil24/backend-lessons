@@ -1,4 +1,15 @@
 -- CreateTable
+CREATE TABLE "progresses" (
+    "id" TEXT NOT NULL,
+    "tg_user_id" TEXT NOT NULL,
+    "content_id" INTEGER NOT NULL,
+    "lesson_id" TEXT NOT NULL,
+    "isCorrected" BOOLEAN NOT NULL,
+
+    CONSTRAINT "progresses_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "courses" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -25,6 +36,9 @@ CREATE TABLE "lessons" (
 
     CONSTRAINT "lessons_pkey" PRIMARY KEY ("id")
 );
+
+-- AddForeignKey
+ALTER TABLE "progresses" ADD CONSTRAINT "progresses_lesson_id_fkey" FOREIGN KEY ("lesson_id") REFERENCES "lessons"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "lessons" ADD CONSTRAINT "lessons_course_id_fkey" FOREIGN KEY ("course_id") REFERENCES "courses"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
