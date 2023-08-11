@@ -6,7 +6,7 @@ import { typeDefs } from "./schema/index.js"
 import { resolvers } from "./resolvers/index.js"
 import { PrismaClient } from "@prisma/client"
 
-const API_PORT = 4000
+const API_PORT = 4001
 const prisma = new PrismaClient()
 const server = new ApolloServer({ typeDefs, resolvers })
 

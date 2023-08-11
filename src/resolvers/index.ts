@@ -1,5 +1,13 @@
 export const resolvers = {
     Query: {
+        getProgress: async (parent, { tgUserId, contentId, lessonId }, { prisma }) => {
+            console.log(tgUserId, lessonId)
+            const progress = await prisma().progress.findFirst({
+                where: { tgUserId, contentId, lessonId }
+            })
+
+            return progress
+        },
         getCourses: async (parent, args, { prisma }) => {
             const courses = await prisma().course.findMany({
                 include: {
@@ -50,6 +58,9 @@ export const resolvers = {
     },
     Mutation: {
         createProgress: async (parent, { input }, { prisma }) => {
+
+            console.log(input)
+
             return await prisma().progress.create({
                 data: {
                     tgUserId: input.tgUserId,

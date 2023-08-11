@@ -4,6 +4,7 @@ export const typeDefs = `#graphql
     scalar JSON
 
     type Query {
+        getProgress(tgUserId: Int!, contentId: Int!, lessonId: String!): Progress
         getCourses: [Course!]!
         getCourse(id: UUID!): Course!
         getLessons: [Lesson!]!
@@ -21,7 +22,7 @@ export const typeDefs = `#graphql
     input ProgressInput {
         tgUserId:    Int!
         contentId:   Int!
-        lessonId:    UUID!
+        lessonId:    String!
         isEstimated: Boolean!
     }
 
@@ -29,7 +30,7 @@ export const typeDefs = `#graphql
         id:          UUID!
         tgUserId:    Int!
         contentId:   Int!
-        lessonId:    UUID!
+        lessonId:    String!
         isEstimated: Boolean!
     }
 
@@ -67,7 +68,7 @@ export const typeDefs = `#graphql
         prevLessonId: UUID
         createdAt: Timestamp!
         updatedAt: Timestamp!
-        courseId: UUID!
+        courseId: String!
         course: Course!
     }
 

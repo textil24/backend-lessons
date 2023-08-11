@@ -43,7 +43,7 @@ model Lesson {
   course       Course  @relation(fields: [courseId], references: [id])
   courseId     String  @map(name: "course_id")
 
-  Progress Progress[]
+  progresses Progress[]
 
   @@map("lessons")
 }

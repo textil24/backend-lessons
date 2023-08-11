@@ -3,8 +3,8 @@ CREATE TABLE "progresses" (
     "id" TEXT NOT NULL,
     "tg_user_id" INTEGER NOT NULL,
     "content_id" INTEGER NOT NULL,
-    "lesson_id" TEXT NOT NULL,
     "is_estimated" BOOLEAN NOT NULL,
+    "lesson_id" TEXT NOT NULL,
 
     CONSTRAINT "progresses_pkey" PRIMARY KEY ("id")
 );
