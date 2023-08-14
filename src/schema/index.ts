@@ -23,7 +23,7 @@ export const typeDefs = `#graphql
         tgUserId:    Int!
         contentId:   Int!
         lessonId:    String!
-        isEstimated: Boolean!
+        isCorrect: Boolean!
     }
 
     type Progress {
@@ -31,7 +31,7 @@ export const typeDefs = `#graphql
         tgUserId:    Int!
         contentId:   Int!
         lessonId:    String!
-        isEstimated: Boolean!
+        isCorrect: Boolean!
     }
 
     input CourseInput {
