@@ -23,11 +23,10 @@ export const typeDefs = `#graphql
         tgUserId:    Int!
         contentId:   Int!
         lessonId:    String!
-        isCorrect: Boolean!
+        isCorrect:   Boolean!
     }
 
     type Progress {
-        id:          UUID!
         tgUserId:    Int!
         contentId:   Int!
         lessonId:    String!
@@ -63,13 +62,20 @@ export const typeDefs = `#graphql
         id: UUID!
         name: String!
         content: JSON!
+        contentTotal: Int!
+        contentTotalIsEstimated: Int!
         orderBy: Int!
         nextLessonId: UUID
         prevLessonId: UUID
         createdAt: Timestamp!
         updatedAt: Timestamp!
-        courseId: String!
         course: Course!
+        userProgress: UserProgress
+    }
+
+    type UserProgress {
+        contentTotalDone: Int!
+        contentTotalDonePercent: Int!
     }
 
 `

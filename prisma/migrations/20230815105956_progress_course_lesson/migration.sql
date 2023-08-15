@@ -1,12 +1,11 @@
 -- CreateTable
 CREATE TABLE "progresses" (
-    "id" TEXT NOT NULL,
     "tg_user_id" INTEGER NOT NULL,
     "content_id" INTEGER NOT NULL,
     "is_correct" BOOLEAN NOT NULL,
     "lesson_id" TEXT NOT NULL,
 
-    CONSTRAINT "progresses_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "progresses_pkey" PRIMARY KEY ("tg_user_id","content_id","lesson_id")
 );
 
 -- CreateTable

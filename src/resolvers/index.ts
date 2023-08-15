@@ -47,16 +47,65 @@ export const resolvers = {
                 }
             })
 
+            function getCountIsEstimatedTrue(lessonElements: { content: any[]}): number {
+                return lessonElements.content.reduce((accumulator, currentValue) => {
+                    if (currentValue.isEstimated === true) {
+                        return accumulator + 1;
+                    }
+                    return accumulator;
+                }, 0)
+            }
+
+            async function getProgress(lessonId: string) {
+                return await prisma().progress.count({
+                    where: {
+                        lessonId,
+                        tgUserId: 666
+                    }
+                })
+            }
+
             return {
                 ...lessonElements,
-                content: lessonElements.content.sort((a, b) => a.orderBy - b.orderBy)
+                course: {
+                    ...lessonElements.course,
+                    lessons: lessonElements.course.lessons.map(async (item) => ({
+                        ...item,
+                        content: item.content.sort((a, b) => a.orderBy - b.orderBy),
+                        contentTotal: item.content.length,
+                        contentTotalIsEstimated: getCountIsEstimatedTrue(item),
+                        userProgress: {
+                            contentTotalDone: await getProgress(item.id),
+                            contentTotalDonePercent: Math.floor((await getProgress(item.id)/getCountIsEstimatedTrue(item)) * 100)
+                        }
+                    })
+                    )
+
+                },
+                content: lessonElements.content.sort((a, b) => a.orderBy - b.orderBy),
+                contentTotal: lessonElements.content.length,
+                contentTotalIsEstimated: getCountIsEstimatedTrue(lessonElements),
+                userProgress: {
+                    contentTotalDone: await getProgress(lessonElements.id),
+                    contentTotalDonePercent: Math.floor((await getProgress(lessonElements.id)/getCountIsEstimatedTrue(lessonElements)) * 100)
+                }
             }
         }
     },
     Mutation: {
         createProgress: async (parent, { input }, { prisma }) => {
-            return await prisma().progress.create({
-                data: {
+            return await prisma().progress.upsert({
+                where: {
+                    tgUserId_contentId_lessonId: {
+                        tgUserId: input.tgUserId,
+                        contentId: input.contentId,
+                        lessonId: input.lessonId
+                    }
+                },
+                update: {
+                    isCorrect: input.isCorrect,
+                },
+                create: {
                     tgUserId: input.tgUserId,
                     contentId: input.contentId,
                     isCorrect: input.isCorrect,
