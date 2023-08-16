@@ -56,8 +56,18 @@ export const resolvers = {
                 }, 0)
             }
 
-            async function getProgress(lessonId: string) {
+            async function getCountProgress(lessonId: string) {
                 return await prisma().progress.count({
+                    where: {
+                        lessonId,
+                        tgUserId: 666
+                    }
+                })
+            }
+
+
+            async function getAllProgress(lessonId: string) {
+                return await prisma().progress.findMany({
                     where: {
                         lessonId,
                         tgUserId: 666
@@ -75,8 +85,9 @@ export const resolvers = {
                         contentTotal: item.content.length,
                         contentTotalIsEstimated: getCountIsEstimatedTrue(item),
                         userProgress: {
-                            contentTotalDone: await getProgress(item.id),
-                            contentTotalDonePercent: Math.floor((await getProgress(item.id)/getCountIsEstimatedTrue(item)) * 100)
+                            contentTotalDone: await getCountProgress(item.id),
+                            contentTotalDonePercent: Math.floor((await getCountProgress(item.id)/getCountIsEstimatedTrue(item)) * 100),
+                            results: getAllProgress(item.id)
                         }
                     })
                     )
@@ -86,8 +97,9 @@ export const resolvers = {
                 contentTotal: lessonElements.content.length,
                 contentTotalIsEstimated: getCountIsEstimatedTrue(lessonElements),
                 userProgress: {
-                    contentTotalDone: await getProgress(lessonElements.id),
-                    contentTotalDonePercent: Math.floor((await getProgress(lessonElements.id)/getCountIsEstimatedTrue(lessonElements)) * 100)
+                    contentTotalDone: await getCountProgress(lessonElements.id),
+                    contentTotalDonePercent: Math.floor((await getCountProgress(lessonElements.id)/getCountIsEstimatedTrue(lessonElements)) * 100),
+                    results: getAllProgress(lessonElements.id)
                 }
             }
         }

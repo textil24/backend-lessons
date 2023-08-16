@@ -76,6 +76,7 @@ export const typeDefs = `#graphql
     type UserProgress {
         contentTotalDone: Int!
         contentTotalDonePercent: Int!
+        results: [Progress!]!
     }
 
 `
