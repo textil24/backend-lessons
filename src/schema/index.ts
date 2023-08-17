@@ -47,6 +47,9 @@ export const typeDefs = `#graphql
         category: String!
         description: String!
         preview: String!
+        contentTotalIsEstimatedCount: Int!
+        progressCourse: Int!
+        contentTotalDoneCount: Int!
         createdAt: Timestamp!
         updatedAt: Timestamp!
         lessons: [Lesson!]!
@@ -62,6 +65,7 @@ export const typeDefs = `#graphql
         id: UUID!
         name: String!
         content: JSON!
+        contentIsEstimatedCount: Int!
         contentTotal: Int!
         contentTotalIsEstimated: Int!
         orderBy: Int!

@@ -26,6 +26,7 @@ CREATE TABLE "lessons" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "content" JSONB NOT NULL,
+    "contentIsEstimatedCount" INTEGER NOT NULL,
     "order_by" INTEGER NOT NULL,
     "next_lesson_id" TEXT,
     "prev_lesson_id" TEXT,

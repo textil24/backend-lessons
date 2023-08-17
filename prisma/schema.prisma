@@ -8,14 +8,13 @@ datasource db {
 }
 
 model Progress {
-  tgUserId                    Int     @map(name: "tg_user_id")
-  contentId                   Int     @map(name: "content_id")
-  isCorrect                   Boolean @map(name: "is_correct")
-  lesson                      Lesson  @relation(fields: [lessonId], references: [id])
-  lessonId                    String  @map(name: "lesson_id")
+  tgUserId  Int     @map(name: "tg_user_id")
+  contentId Int     @map(name: "content_id")
+  isCorrect Boolean @map(name: "is_correct")
+  lesson    Lesson  @relation(fields: [lessonId], references: [id])
+  lessonId  String  @map(name: "lesson_id")
 
   @@id([tgUserId, contentId, lessonId])
-  // @@unique([tgUserId, contentId, lessonId])
   @@map("progresses")
 }
 
@@ -33,16 +32,17 @@ model Course {
 }
 
 model Lesson {
-  id           String  @id @default(uuid())
-  name         String
-  content      Json
-  orderBy      Int     @map(name: "order_by")
-  nextLessonId String? @map(name: "next_lesson_id")
-  prevLessonId String? @map(name: "prev_lesson_id")
-  createdAt    String  @map(name: "created_at")
-  updatedAt    String  @map(name: "updated_at")
-  course       Course  @relation(fields: [courseId], references: [id])
-  courseId     String  @map(name: "course_id")
+  id                      String  @id @default(uuid())
+  name                    String
+  content                 Json
+  contentIsEstimatedCount Int
+  orderBy                 Int     @map(name: "order_by")
+  nextLessonId            String? @map(name: "next_lesson_id")
+  prevLessonId            String? @map(name: "prev_lesson_id")
+  createdAt               String  @map(name: "created_at")
+  updatedAt               String  @map(name: "updated_at")
+  course                  Course  @relation(fields: [courseId], references: [id])
+  courseId                String  @map(name: "course_id")
 
   progresses Progress[]
 

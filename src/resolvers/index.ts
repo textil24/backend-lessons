@@ -12,7 +12,36 @@ export const resolvers = {
                 }
             });
 
-            return courses;
+            async function getCountProgress(lessonId: string): Promise<number> {
+                return await prisma().progress.count({
+                    where: {
+                        lessonId,
+                        tgUserId: 666
+                    }
+                })
+            }
+
+            const newCourses = await Promise.all(courses.map(async course => {
+                const contentTotalIsEstimatedCount = course.lessons.reduce((acc, item) => acc + item.contentIsEstimatedCount, 0);
+                const contentTotalDoneCount = await course.lessons.reduce(async (accPromise, lesson) => {
+                    const acc = await accPromise;
+                    const doneCount = await getCountProgress(lesson.id);
+                    return acc + doneCount;
+                }, Promise.resolve(0));
+
+                const progressCourse = Math.floor((contentTotalDoneCount/contentTotalIsEstimatedCount) * 100)
+
+                return {
+                    ...course,
+                    contentTotalIsEstimatedCount,
+                    contentTotalDoneCount,
+                    progressCourse
+                };
+            }));
+
+            console.log(newCourses)
+
+            return newCourses;
         },
         getCourse: async (parent, { id }, { prisma }) => {
             const course = await prisma().course.findUnique({
@@ -47,7 +76,7 @@ export const resolvers = {
                 }
             })
 
-            function getCountIsEstimatedTrue(lessonElements: { content: any[]}): number {
+            function getCountIsEstimatedTrue(lessonElements: { content: any[] }): number {
                 return lessonElements.content.reduce((accumulator, currentValue) => {
                     if (currentValue.isEstimated === true) {
                         return accumulator + 1;
@@ -86,7 +115,7 @@ export const resolvers = {
                         contentTotalIsEstimated: getCountIsEstimatedTrue(item),
                         userProgress: {
                             contentTotalDone: await getCountProgress(item.id),
-                            contentTotalDonePercent: Math.floor((await getCountProgress(item.id)/getCountIsEstimatedTrue(item)) * 100),
+                            contentTotalDonePercent: Math.floor((await getCountProgress(item.id) / getCountIsEstimatedTrue(item)) * 100),
                             results: getAllProgress(item.id)
                         }
                     })
@@ -98,7 +127,7 @@ export const resolvers = {
                 contentTotalIsEstimated: getCountIsEstimatedTrue(lessonElements),
                 userProgress: {
                     contentTotalDone: await getCountProgress(lessonElements.id),
-                    contentTotalDonePercent: Math.floor((await getCountProgress(lessonElements.id)/getCountIsEstimatedTrue(lessonElements)) * 100),
+                    contentTotalDonePercent: Math.floor((await getCountProgress(lessonElements.id) / getCountIsEstimatedTrue(lessonElements)) * 100),
                     results: getAllProgress(lessonElements.id)
                 }
             }
@@ -142,6 +171,7 @@ export const resolvers = {
                                 name: item.name,
                                 content: item.content,
                                 orderBy: item.orderBy,
+                                contentIsEstimatedCount: item.content.filter(el => el.isEstimated).length,
                                 nextLessonId: null,
                                 prevLessonId: null,
                                 createdAt: currentDate,
