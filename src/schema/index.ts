@@ -83,4 +83,4 @@ export const typeDefs = `#graphql
         results: [Progress!]!
     }
 
-`
+`;
