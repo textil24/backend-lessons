@@ -6,7 +6,9 @@
   "scripts": {
     "compile": "tsc",
     "dev": "nodemon --exec ts-node --esm src/index.ts",
-    "build": ""
+    "build": "",
+    "format": "npx prettier . --write",
+    "check-format": "npx prettier . --check"
   },
   "keywords": [],
   "author": "",
