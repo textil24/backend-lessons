@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "tsc",
     "dev": "nodemon --exec ts-node --esm src/index.ts",
-    "build": "",
+    "build": "tsc && npx prisma generate",
     "format": "npx prettier . --write",
     "check-format": "npx prettier . --check"
   },
