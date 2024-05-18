@@ -1,0 +1,11 @@
+[build]
+  base = ""
+  publish = "dist"
+  command = "npm run build"
+
+[functions]
+  directory = "netlify/functions"
+
+[context.production.environment]
+  DATABASE_URL = "postgres://user:pass@host:5432/db"
+  NODE_ENV = "production"
