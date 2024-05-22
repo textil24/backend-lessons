@@ -6,7 +6,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgres://user:pass@postgres:5432/db
+      DATABASE_URL: postgres://admin:NPW*N04l0K@postgres:5432/naukograd
       NODE_ENV: development
       PORT: 3000
     ports:
@@ -19,7 +19,7 @@ services:
   postgres:
     image: postgres:15
     ports:
-      - "54321:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: NPW*N04l0K
