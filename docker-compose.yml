@@ -11,7 +11,7 @@ services:
       PORT: 3000
     ports:
       - "4001:4001"
-    command: npm run start
+    command: npm run generate-and-start
     volumes:
       - .:/app/
       - /app/node_modules
