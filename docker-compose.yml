@@ -21,6 +21,6 @@ services:
     ports:
       - "54321:5432"
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: NPW*N04l0K
+      POSTGRES_DB: naukograd
