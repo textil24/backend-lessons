@@ -7,7 +7,7 @@
     "start": "node --loader ts-node/esm ./src/index.ts",
     "compile": "tsc",
     "dev": "nodemon --exec ts-node --esm src/index.ts",
-    "generate-and-start": "npx prisma generate && npm start",
+    "generate-and-start": "npx prisma migrate dev --name init && npm start",
     "build": "tsc && npx prisma generate",
     "format": "npx prettier . --write",
     "check-format": "npx prettier . --check"
